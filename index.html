@@ -112,6 +112,33 @@
   .choice.correct{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700;}
   .choice.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red);}
   .choice.lock{pointer-events:none;}
+  .choice .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:7px;margin-right:9px;
+    background:rgba(31,42,82,.07);color:var(--sub);
+    font-family:'Noto Sans KR',sans-serif;font-size:.72rem;font-weight:700;vertical-align:middle;
+  }
+  .choice.correct .num{background:rgba(22,166,115,.15);color:var(--green);}
+  .choice.wrong .num{background:rgba(229,72,77,.15);color:var(--red);}
+
+  /* 주관식 */
+  .typebox{display:flex;flex-direction:column;gap:11px;margin-top:auto;}
+  .typebox input{
+    width:100%;text-align:center;background:#fff;border:2px solid var(--line);
+    border-radius:16px;padding:14px;color:var(--ink);outline:none;
+    font-family:'Patrick Hand',cursive;font-size:1.44em;
+    transition:border-color .15s, background .15s;
+  }
+  .typebox input:focus{border-color:var(--gold);}
+  .typebox input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700;}
+  .typebox input.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+  .typeanswer{
+    text-align:center;font-size:1em;color:var(--green);font-weight:700;display:none;
+  }
+  .typeanswer .eng{font-size:1.35em;}
+  .typehint{text-align:center;font-size:.8em;color:var(--sub);}
+  .kbdhint{margin-top:10px;font-size:.8em;color:var(--sub);}
+  .kbdhint b{color:var(--gold-d);}
 
   /* RESULT */
   #result{padding-top:20px;
@@ -169,7 +196,8 @@
     <h1>단어 테스트</h1>
     <div class="unit eng">4. Dreaming of My Future</div>
     <div class="meta">천재(정사열) 중3 영어 · 전체 60문항 랜덤</div>
-    <div class="meta">영어↔한글 혼합 출제</div>
+    <div class="meta">영어↔한글 혼합 + 주관식(영어 쓰기) 출제</div>
+    <div class="kbdhint">💻 키보드 <b>1~4</b>로 보기 선택 · 주관식은 <b>Enter</b>로 제출</div>
     <div class="startwrap">
       <button class="btn btn-primary" onclick="startQuiz()">시작하기</button>
     </div>
@@ -198,6 +226,12 @@
       <div id="promptword"></div>
     </div>
     <div class="choices" id="choices"></div>
+    <div class="typebox" id="typebox" style="display:none">
+      <input type="text" id="typeinput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="영어로 입력하세요">
+      <div class="typeanswer" id="typeanswer"></div>
+      <button class="btn btn-primary" id="typebtn" onclick="submitTyping()">제출 (Enter ⏎)</button>
+      <div class="typehint">대소문자는 구분하지 않아요</div>
+    </div>
   </section>
 
   <!-- RESULT -->
@@ -302,7 +336,12 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
 
 function buildQuestion(word){
-  // 방향 랜덤: en2ko = 영어 제시→한글 보기 / ko2en = 한글 제시→영어 보기
+  // 주관식: 한글 뜻 → 영어 입력 (… / ? 포함 표현은 객관식만)
+  const canType = !/[.?…]/.test(word.en);
+  if(canType && Math.random()<0.35){
+    return {word, type:'typing'};
+  }
+  // 객관식 방향 랜덤: en2ko = 영어 제시→한글 보기 / ko2en = 한글 제시→영어 보기
   const dir = Math.random()<0.5 ? 'en2ko' : 'ko2en';
   const key = dir==='en2ko' ? 'ko' : 'en';
   const distractPool = shuffle(WORDS.filter(w=>w.en!==word.en));
@@ -312,7 +351,7 @@ function buildQuestion(word){
     if(opts.some(o=>o[key]===w[key])) continue; // 중복 보기 방지
     opts.push(w);
   }
-  return {word, dir, key, options:shuffle(opts)};
+  return {word, type:'mc', dir, key, options:shuffle(opts)};
 }
 
 function startQuiz(){
@@ -331,6 +370,24 @@ function render(){
 
   const pw=document.getElementById('promptword');
   const tag=document.getElementById('qtag');
+  const box=document.getElementById('choices');
+  const tbox=document.getElementById('typebox');
+
+  if(q.type==='typing'){
+    tag.textContent='영어로 쓰기 ⏎';
+    pw.className='qword-ko';
+    pw.textContent=q.word.ko;
+    box.style.display='none';
+    tbox.style.display='flex';
+    const inp=document.getElementById('typeinput');
+    inp.value=''; inp.className=''; inp.disabled=false;
+    document.getElementById('typeanswer').style.display='none';
+    inp.focus();
+    return;
+  }
+
+  tbox.style.display='none';
+  box.style.display='flex';
   if(q.dir==='en2ko'){
     tag.textContent='뜻 고르기';
     pw.className='qword-en eng';
@@ -341,13 +398,16 @@ function render(){
     pw.textContent=q.word.ko;
   }
 
-  const box=document.getElementById('choices');
   box.innerHTML='';
-  q.options.forEach(opt=>{
+  q.options.forEach((opt,i)=>{
     const b=document.createElement('button');
     const isEn = q.key==='en';
     b.className='choice '+(isEn?'en eng':'ko');
-    b.textContent=opt[q.key];
+    b.dataset.val=opt[q.key];
+    const num=document.createElement('span');
+    num.className='num'; num.textContent=i+1;
+    b.appendChild(num);
+    b.appendChild(document.createTextNode(opt[q.key]));
     b.onclick=()=>choose(b,opt,q);
     box.appendChild(b);
   });
@@ -366,86 +426,7 @@ function choose(btn,opt,q){
     setTimeout(next,250); // 정답 → 0.25초 후 넘어가기
   }else{
     btn.classList.add('wrong');
-    buttons.forEach(b=>{ if(b.textContent===q.word[q.key]) b.classList.add('correct'); });
+    buttons.forEach(b=>{ if(b.dataset.val===q.word[q.key]) b.classList.add('correct'); });
     wrongs.push({
       dir:q.dir,
-      en:q.word.en, ko:q.word.ko,
-      chosen: opt[q.key], correct:q.word[q.key], key:q.key
-    });
-    setTimeout(next,900); // 오답 → 잠시 보여주고 넘어가기
-  }
-}
-
-function next(){
-  idx++;
-  if(idx>=queue.length){ finish(); }
-  else render();
-}
-
-function finish(){
-  document.getElementById('prog').style.width='100%';
-  const total=queue.length;
-  const pct=Math.round(score/total*100);
-  document.getElementById('rscore').textContent=score;
-  document.getElementById('rtotal').textContent=total;
-  document.getElementById('rpct').textContent=pct+'%';
-  document.getElementById('remoji').textContent = pct===100?'🏆': pct>=80?'🎉': pct>=60?'👍':'💪';
-
-  const review=document.getElementById('review');
-  const ok=document.getElementById('rvok');
-  const title=document.getElementById('rvtitle');
-  review.innerHTML='';
-  if(wrongs.length===0){
-    title.textContent='오답 확인';
-    ok.textContent='';
-    review.innerHTML='<div class="allright">완벽해요! 틀린 단어가 없어요 ✨</div>';
-  }else{
-    title.textContent='오답 확인 ('+wrongs.length+')';
-    ok.textContent='맞은 단어 '+score+'개';
-    wrongs.forEach(w=>{
-      const enB='<b class="eng">'+w.en+'</b>';
-      const div=document.createElement('div');
-      div.className='ritem';
-      div.innerHTML =
-        '<div class="q">'+enB+' &nbsp;—&nbsp; '+w.ko+'</div>'+
-        '<div class="ans"><span class="yours">내 답: <s>'+w.chosen+'</s></span>'+
-        '<span class="right">정답: '+w.correct+'</span></div>';
-      review.appendChild(div);
-    });
-  }
-  show('result');
-}
-
-function copyResult(){
-  const total=queue.length, pct=Math.round(score/total*100);
-  let t='[EngFit 단어 테스트]\n4. Dreaming of My Future (천재 정사열·중3)\n\n';
-  t+='점수: '+score+'/'+total+' ('+pct+'%)\n';
-  t+='날짜: '+new Date().toLocaleDateString('ko-KR')+'\n';
-  if(wrongs.length===0){
-    t+='\n🏆 모두 정답! 완벽합니다.';
-  }else{
-    t+='\n■ 틀린 단어 ('+wrongs.length+')\n';
-    wrongs.forEach((w,i)=>{ t+=(i+1)+'. '+w.en+' - '+w.ko+'\n'; });
-  }
-  const done=()=>showToast('복사되었습니다!');
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));
-  }else{ fallbackCopy(t,done); }
-}
-function fallbackCopy(text,cb){
-  const ta=document.createElement('textarea');
-  ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  try{document.execCommand('copy');}catch(e){}
-  document.body.removeChild(ta); cb&&cb();
-}
-let toastT;
-function showToast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),1600);
-}
-function restart(){ show('start'); }
-</script>
-</body>
-</html>
+      en:q.wor
