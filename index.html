@@ -9,21 +9,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#1f2a52;
-    --navy-d:#16203f;
-    --navy-l:#27336b;
-    --gold:#f0a830;
-    --gold-d:#d68f15;
-    --cream:#fdf9f0;
-    --card:#ffffff;
-    --ink:#1f2a52;
-    --sub:#7c879e;
-    --green:#16a673;
-    --green-bg:#e6f8f0;
-    --red:#e5484d;
-    --red-bg:#fdeced;
-    --line:#e9e4d8;
-    --shadow:0 14px 36px rgba(13,19,43,.38);
+    --purple:#6d5494;
+    --purple-d:#594379;
+    --pink:#d678a8;
+    --pink-d:#bd5e91;
+    --ink:#5d4a7a;
+    --sub:#a394bd;
+    --card:#fffafd;
+    --cream:#faf3fa;
+    --green:#4f7d4e;
+    --green-bg:#ecf4ea;
+    --red:#c0564b;
+    --red-bg:#faeceb;
+    --line:#ecdcec;
+    --shadow:0 14px 36px rgba(109,84,148,.32);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;height:100%;}
@@ -33,25 +32,28 @@
     display:flex;align-items:center;justify-content:center;
     min-height:100dvh;padding:16px;
     background:
-      radial-gradient(circle at 50% -10%, rgba(240,168,48,.30) 0%, rgba(240,168,48,0) 42%),
-      radial-gradient(circle at 12% 88%, rgba(240,168,48,.12) 0%, rgba(240,168,48,0) 30%),
-      linear-gradient(165deg,#27336b 0%, #1f2a52 45%, #16203f 100%);
+      radial-gradient(ellipse 60% 28% at 25% 78%, rgba(255,255,255,.55) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 30% at 75% 64%, rgba(248,196,216,.85) 0%, transparent 72%),
+      radial-gradient(ellipse 80% 32% at 40% 50%, rgba(243,181,206,.7) 0%, transparent 75%),
+      radial-gradient(ellipse 90% 40% at 60% 88%, rgba(252,214,228,.9) 0%, transparent 80%),
+      linear-gradient(178deg, #a99ad0 0%, #c3a8d6 30%, #e8b8d4 62%, #f7cfdf 100%);
     position:relative;overflow-x:hidden;
   }
-  /* retro badge motifs on background */
-  body::before, body::after{
-    content:'';position:fixed;border-radius:50%;pointer-events:none;
-    border:2px dashed rgba(240,168,48,.28);
+  /* 초승달 */
+  body::before{
+    content:'';position:fixed;top:6%;left:7%;width:52px;height:52px;border-radius:50%;
+    background:radial-gradient(circle at 68% 38%, transparent 0 54%, #f5e9a8 56%);
+    filter:drop-shadow(0 0 12px rgba(245,233,168,.85));
+    pointer-events:none;z-index:0;
   }
-  body::before{width:340px;height:340px;top:-130px;right:-110px;}
-  body::after{width:260px;height:260px;bottom:-100px;left:-90px;}
+  .deco{position:fixed;pointer-events:none;z-index:0;color:#fdf3c0;text-shadow:0 0 8px rgba(253,243,192,.9);}
   .eng{font-family:'Patrick Hand',cursive;}
   .app{
     width:100%;max-width:460px;background:var(--card);
     border-radius:26px;box-shadow:var(--shadow);
     overflow:hidden;position:relative;min-height:620px;
     display:flex;flex-direction:column;z-index:1;
-    border:1px solid rgba(240,168,48,.35);
+    border:1px solid rgba(214,120,168,.35);
   }
   .logo{display:flex;align-items:center;}
   .logo svg{display:block;}
@@ -61,19 +63,19 @@
   /* START */
   #start{align-items:center;justify-content:center;text-align:center;gap:6px;
     background:
-      radial-gradient(circle at 50% 0%, rgba(240,168,48,.10) 0%, rgba(240,168,48,0) 55%),
+      radial-gradient(circle at 50% 0%, rgba(214,120,168,.10) 0%, rgba(214,120,168,0) 55%),
       var(--cream);
   }
   #start .badge{
     margin:6px 0 12px;width:190px;height:190px;border-radius:50%;
-    background:#fff;border:2.5px solid var(--navy);
-    box-shadow:0 0 0 7px var(--cream), 0 0 0 9px rgba(240,168,48,.85), 0 14px 26px rgba(31,42,82,.18);
+    background:#fff;border:2.5px solid var(--purple);
+    box-shadow:0 0 0 7px var(--cream), 0 0 0 9px rgba(214,120,168,.75), 0 14px 26px rgba(109,84,148,.18);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
     position:relative;
   }
-  .badge .star{color:var(--gold);font-size:15px;letter-spacing:5px;}
-  #start h1{margin:10px 0 2px;font-size:1.5em;font-weight:900;color:var(--navy);}
-  #start .unit{font-family:'Patrick Hand',cursive;font-size:1.32em;color:var(--gold-d);}
+  .badge .star{color:var(--pink);font-size:15px;letter-spacing:5px;}
+  #start h1{margin:10px 0 2px;font-size:1.5em;font-weight:900;color:var(--purple);}
+  #start .unit{font-family:'Patrick Hand',cursive;font-size:1.32em;color:var(--pink-d);}
   #start .meta{margin-top:5px;font-size:.92em;color:var(--sub);}
   .btn{
     border:none;border-radius:16px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;
@@ -81,25 +83,27 @@
   }
   .btn:active{transform:scale(.97);}
   .btn-primary{
-    background:var(--navy);color:#fff;font-size:1.08em;padding:16px 20px;width:100%;
-    box-shadow:0 8px 18px rgba(31,42,82,.35);
+    background:linear-gradient(135deg,var(--purple),var(--pink-d));color:#fff;font-size:1.08em;padding:16px 20px;width:100%;
+    box-shadow:0 8px 18px rgba(109,84,148,.35);
   }
-  .btn-primary:active{background:var(--navy-d);}
+  .btn-primary:active{background:var(--purple-d);}
   #start .startwrap{width:100%;margin-top:20px;}
+  .kbdhint{margin-top:10px;font-size:.8em;color:var(--sub);}
+  .kbdhint b{color:var(--pink-d);}
 
   /* QUIZ */
-  #quiz{padding-top:18px;background:#fff;}
+  #quiz{padding-top:18px;background:#fffafd;}
   .qtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
   .count{font-size:.92em;color:var(--sub);font-weight:700;}
   .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px;}
-  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#f6c465);border-radius:99px;transition:width .3s;}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:99px;transition:width .3s;}
   .prompt{
     flex:0 0 auto;min-height:120px;display:flex;flex-direction:column;
     align-items:center;justify-content:center;text-align:center;gap:8px;margin-bottom:22px;
   }
-  .qtag{font-size:.82em;font-weight:700;color:var(--gold-d);background:rgba(240,168,48,.14);padding:5px 12px;border-radius:99px;}
-  .qword-en{font-family:'Patrick Hand',cursive;font-size:2.6em;line-height:1.1;color:var(--navy);}
-  .qword-ko{font-family:'Noto Sans KR',sans-serif;font-size:1.65em;font-weight:700;line-height:1.3;color:var(--navy);}
+  .qtag{font-size:.82em;font-weight:700;color:var(--pink-d);background:rgba(214,120,168,.12);padding:5px 12px;border-radius:99px;}
+  .qword-en{font-family:'Patrick Hand',cursive;font-size:2.6em;line-height:1.1;color:var(--purple);}
+  .qword-ko{font-family:'Noto Sans KR',sans-serif;font-size:1.65em;font-weight:700;line-height:1.3;color:var(--purple);}
   .choices{display:flex;flex-direction:column;gap:11px;margin-top:auto;}
   .choice{
     width:100%;text-align:center;background:#fff;border:2px solid var(--line);
@@ -115,11 +119,11 @@
   .choice .num{
     display:inline-flex;align-items:center;justify-content:center;
     width:22px;height:22px;border-radius:7px;margin-right:9px;
-    background:rgba(31,42,82,.07);color:var(--sub);
+    background:rgba(109,84,148,.08);color:var(--sub);
     font-family:'Noto Sans KR',sans-serif;font-size:.72rem;font-weight:700;vertical-align:middle;
   }
-  .choice.correct .num{background:rgba(22,166,115,.15);color:var(--green);}
-  .choice.wrong .num{background:rgba(229,72,77,.15);color:var(--red);}
+  .choice.correct .num{background:rgba(79,125,78,.15);color:var(--green);}
+  .choice.wrong .num{background:rgba(192,86,75,.15);color:var(--red);}
 
   /* 주관식 */
   .typebox{display:flex;flex-direction:column;gap:11px;margin-top:auto;}
@@ -129,7 +133,7 @@
     font-family:'Patrick Hand',cursive;font-size:1.44em;
     transition:border-color .15s, background .15s;
   }
-  .typebox input:focus{border-color:var(--gold);}
+  .typebox input:focus{border-color:var(--pink);}
   .typebox input.correct{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:700;}
   .typebox input.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red);}
   .typeanswer{
@@ -137,22 +141,20 @@
   }
   .typeanswer .eng{font-size:1.35em;}
   .typehint{text-align:center;font-size:.8em;color:var(--sub);}
-  .kbdhint{margin-top:10px;font-size:.8em;color:var(--sub);}
-  .kbdhint b{color:var(--gold-d);}
 
   /* RESULT */
   #result{padding-top:20px;
     background:
-      radial-gradient(circle at 50% 0%, rgba(240,168,48,.10) 0%, rgba(240,168,48,0) 50%),
+      radial-gradient(circle at 50% 0%, rgba(214,120,168,.10) 0%, rgba(214,120,168,0) 50%),
       var(--cream);
   }
   #result .logo{justify-content:center;margin-bottom:8px;}
   .scorecard{text-align:center;margin:6px 0 18px;}
   .scorecard .emoji{font-size:46px;}
-  .scorecard .score{font-size:2.4em;font-weight:900;margin-top:4px;color:var(--navy);}
+  .scorecard .score{font-size:2.4em;font-weight:900;margin-top:4px;color:var(--purple);}
   .scorecard .score small{font-size:.42em;color:var(--sub);font-weight:700;}
-  .scorecard .pct{font-size:1em;color:var(--gold-d);font-weight:700;margin-top:2px;}
-  .reviewhead{font-size:.95em;font-weight:700;margin:6px 2px 10px;display:flex;justify-content:space-between;align-items:center;color:var(--navy);}
+  .scorecard .pct{font-size:1em;color:var(--pink-d);font-weight:700;margin-top:2px;}
+  .reviewhead{font-size:.95em;font-weight:700;margin:6px 2px 10px;display:flex;justify-content:space-between;align-items:center;color:var(--purple);}
   .reviewhead .ok{color:var(--green);font-size:.92em;}
   .review{display:flex;flex-direction:column;gap:9px;max-height:240px;overflow-y:auto;padding:2px;}
   .ritem{border:1.5px solid var(--red-bg);background:#fff;border-radius:14px;padding:11px 13px;border-left:5px solid var(--red);}
@@ -160,20 +162,27 @@
   .ritem .ans{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;font-size:.95em;}
   .ritem .yours{color:var(--red);} .ritem .yours s{opacity:.8;}
   .ritem .right{color:var(--green);font-weight:700;}
-  .ritem b.eng{font-family:'Patrick Hand',cursive;font-size:1.2em;font-weight:400;color:var(--navy);}
+  .ritem b.eng{font-family:'Patrick Hand',cursive;font-size:1.2em;font-weight:400;color:var(--purple);}
   .allright{text-align:center;color:var(--green);font-weight:700;padding:18px;background:var(--green-bg);border-radius:14px;}
   .actions{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
   .btn-kakao{background:#FEE500;color:#3a1d1d;font-size:1.04em;padding:15px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;}
-  .btn-ghost{background:#efe9db;color:var(--navy);font-size:1em;padding:14px;width:100%;}
+  .btn-ghost{background:#f0e3ef;color:var(--purple);font-size:1em;padding:14px;width:100%;}
   .toast{
     position:absolute;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
-    background:var(--navy);color:#fff;padding:11px 18px;border-radius:99px;font-size:.9em;font-weight:600;
+    background:var(--purple);color:#fff;padding:11px 18px;border-radius:99px;font-size:.9em;font-weight:600;
     opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
+<!-- 라벤더 파스텔 구름 배경 장식 (꿈·미래 테마) -->
+<span class="deco" style="top:18%;right:12%;font-size:18px">✦</span>
+<span class="deco" style="top:32%;left:14%;font-size:12px">✦</span>
+<span class="deco" style="top:55%;right:7%;font-size:14px">✦</span>
+<span class="deco" style="bottom:20%;left:8%;font-size:11px">✦</span>
+<span class="deco" style="top:9%;right:30%;font-size:10px">✦</span>
+
 <div class="app">
 
   <!-- START -->
@@ -266,7 +275,7 @@
 </div>
 
 <script>
-/* ===== 단어 데이터: 4. Dreaming of My Future (60) ===== */
+/* ===== 단어 데이터: 4. Dreaming of My Future · 천재(정사열) 중3 (60) ===== */
 const WORDS = [
   {en:"look down", ko:"우울해 보이다"},
   {en:"disappointed", ko:"실망한"},
@@ -336,15 +345,16 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
 
 function buildQuestion(word){
-  // 주관식: 한글 뜻 → 영어 입력 (… / ? 포함 표현은 객관식만)
-  const canType = !/[.?…]/.test(word.en);
+  // 주관식: 한글 뜻 → 영어 입력 (특수문자 ~ / . / ? / … 포함 표현은 객관식만)
+  const canType = !/[.?…~]/.test(word.en);
   if(canType && Math.random()<0.35){
     return {word, type:'typing'};
   }
   // 객관식 방향 랜덤: en2ko = 영어 제시→한글 보기 / ko2en = 한글 제시→영어 보기
   const dir = Math.random()<0.5 ? 'en2ko' : 'ko2en';
   const key = dir==='en2ko' ? 'ko' : 'en';
-  const distractPool = shuffle(WORDS.filter(w=>w.en!==word.en));
+  // 같은 뜻(동의어) 단어는 보기에서 제외해 복수 정답 방지 (예: 허락하다 계열)
+  const distractPool = shuffle(WORDS.filter(w=>w.en!==word.en && w.ko!==word.ko));
   const opts=[word];
   for(const w of distractPool){
     if(opts.length>=4) break;
@@ -398,167 +408,4 @@ function render(){
     pw.textContent=q.word.ko;
   }
 
-  box.innerHTML='';
-  q.options.forEach((opt,i)=>{
-    const b=document.createElement('button');
-    const isEn = q.key==='en';
-    b.className='choice '+(isEn?'en eng':'ko');
-    b.dataset.val=opt[q.key];
-    const num=document.createElement('span');
-    num.className='num'; num.textContent=i+1;
-    b.appendChild(num);
-    b.appendChild(document.createTextNode(opt[q.key]));
-    b.onclick=()=>choose(b,opt,q);
-    box.appendChild(b);
-  });
-}
-
-function choose(btn,opt,q){
-  if(locked) return;
-  locked=true;
-  const correct = opt.en===q.word.en;
-  const buttons=[...document.getElementById('choices').children];
-  buttons.forEach(b=>b.classList.add('lock'));
-
-  if(correct){
-    btn.classList.add('correct');
-    score++;
-    setTimeout(next,250); // 정답 → 0.25초 후 넘어가기
-  }else{
-    btn.classList.add('wrong');
-    buttons.forEach(b=>{ if(b.dataset.val===q.word[q.key]) b.classList.add('correct'); });
-    wrongs.push({
-      dir:q.dir,
-      en:q.word.en, ko:q.word.ko,
-      chosen: opt[q.key], correct:q.word[q.key], key:q.key
-    });
-    setTimeout(next,900); // 오답 → 잠시 보여주고 넘어가기
-  }
-}
-
-/* ===== 주관식 채점 (대소문자 구분 없음) ===== */
-function norm(s){
-  return s.toLowerCase()
-    .replace(/[’‘`]/g,"'")
-    .replace(/\s+/g,' ')
-    .trim();
-}
-function submitTyping(){
-  if(locked) return;
-  const q=queue[idx];
-  if(!q || q.type!=='typing') return;
-  const inp=document.getElementById('typeinput');
-  const val=inp.value;
-  if(norm(val)==='') { inp.focus(); return; } // 빈 입력은 제출 안 됨
-  locked=true;
-  inp.disabled=true;
-  const correct = norm(val)===norm(q.word.en);
-  if(correct){
-    inp.classList.add('correct');
-    score++;
-    setTimeout(next,250); // 정답 → 0.25초 후 넘어가기
-  }else{
-    inp.classList.add('wrong');
-    const ans=document.getElementById('typeanswer');
-    ans.innerHTML='정답: <b class="eng">'+q.word.en+'</b>';
-    ans.style.display='block';
-    wrongs.push({
-      dir:'typing',
-      en:q.word.en, ko:q.word.ko,
-      chosen: val.trim(), correct:q.word.en, key:'en'
-    });
-    setTimeout(next,1500); // 오답 → 정답 보여주고 넘어가기
-  }
-}
-
-/* ===== 키보드 조작: 1~4 보기 선택 / Enter 주관식 제출 ===== */
-document.addEventListener('keydown',function(e){
-  if(!document.getElementById('quiz').classList.contains('on')) return;
-  const q=queue[idx];
-  if(!q || locked) return;
-  if(q.type==='mc'){
-    const n={'1':0,'2':1,'3':2,'4':3}[e.key];
-    if(n!==undefined){
-      const b=document.getElementById('choices').children[n];
-      if(b){ e.preventDefault(); b.click(); }
-    }
-  }else if(q.type==='typing' && e.key==='Enter'){
-    e.preventDefault();
-    submitTyping();
-  }
-});
-
-function next(){
-  idx++;
-  if(idx>=queue.length){ finish(); }
-  else render();
-}
-
-function finish(){
-  document.getElementById('prog').style.width='100%';
-  const total=queue.length;
-  const pct=Math.round(score/total*100);
-  document.getElementById('rscore').textContent=score;
-  document.getElementById('rtotal').textContent=total;
-  document.getElementById('rpct').textContent=pct+'%';
-  document.getElementById('remoji').textContent = pct===100?'🏆': pct>=80?'🎉': pct>=60?'👍':'💪';
-
-  const review=document.getElementById('review');
-  const ok=document.getElementById('rvok');
-  const title=document.getElementById('rvtitle');
-  review.innerHTML='';
-  if(wrongs.length===0){
-    title.textContent='오답 확인';
-    ok.textContent='';
-    review.innerHTML='<div class="allright">완벽해요! 틀린 단어가 없어요 ✨</div>';
-  }else{
-    title.textContent='오답 확인 ('+wrongs.length+')';
-    ok.textContent='맞은 단어 '+score+'개';
-    wrongs.forEach(w=>{
-      const enB='<b class="eng">'+w.en+'</b>';
-      const div=document.createElement('div');
-      div.className='ritem';
-      div.innerHTML =
-        '<div class="q">'+enB+' &nbsp;—&nbsp; '+w.ko+'</div>'+
-        '<div class="ans"><span class="yours">내 답: <s>'+w.chosen+'</s></span>'+
-        '<span class="right">정답: '+w.correct+'</span></div>';
-      review.appendChild(div);
-    });
-  }
-  show('result');
-}
-
-function copyResult(){
-  const total=queue.length, pct=Math.round(score/total*100);
-  let t='[EngFit 단어 테스트]\n4. Dreaming of My Future (천재 정사열·중3)\n\n';
-  t+='점수: '+score+'/'+total+' ('+pct+'%)\n';
-  t+='날짜: '+new Date().toLocaleDateString('ko-KR')+'\n';
-  if(wrongs.length===0){
-    t+='\n🏆 모두 정답! 완벽합니다.';
-  }else{
-    t+='\n■ 틀린 단어 ('+wrongs.length+')\n';
-    wrongs.forEach((w,i)=>{ t+=(i+1)+'. '+w.en+' - '+w.ko+'\n'; });
-  }
-  const done=()=>showToast('복사되었습니다!');
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));
-  }else{ fallbackCopy(t,done); }
-}
-function fallbackCopy(text,cb){
-  const ta=document.createElement('textarea');
-  ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  try{document.execCommand('copy');}catch(e){}
-  document.body.removeChild(ta); cb&&cb();
-}
-let toastT;
-function showToast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),1600);
-}
-function restart(){ show('start'); }
-</script>
-<!-- v2: keyboard 1-4 + typing(Enter, case-insensitive) -->
-</body>
-</html>
+  box.inner
